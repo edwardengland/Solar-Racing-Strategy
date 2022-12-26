@@ -13,7 +13,9 @@ w = vs.drivetrain.motor.(corner).w; % [rad/s] Motor Angular Speed
 
 T_wind = vs.drivetrain.motor.(corner).T_wind; % [k] Motor Winding Temperature
 
-T_amb = vs.env.T_amb; % [k] Ambient Air Temperature
+T_amb = vs.env.T_ambient; % [k] Ambient Air Temperature
+
+I_in = vs.drivetrain.inverter.(corner).I_out;
 
 %% Model:
 
@@ -30,7 +32,7 @@ B = 1.32 - 1.2e-3*(T_mag - 293);
 
 % Output Torque
 i_phase = I_in/3; % is this correct for three-phase power?
-tau = I_phase/(0.561*B);
+tau = i_phase/(0.561*B);
 
 % per phase motor winding resistance
 R = 0.0575*(1+0.0039*(T_wind-293));
@@ -43,7 +45,7 @@ P_e = 9.602e-6*(B*w)^2/R;
 
 % Winding Temperature
 T_wind = 0.455*(P_c + P_e) + T_amb;
-disp(T_wind)
+% disp(T_wind)
 end
 
 % Internal Windage
